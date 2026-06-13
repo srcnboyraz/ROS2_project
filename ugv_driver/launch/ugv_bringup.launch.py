@@ -4,6 +4,9 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.actions import TimerAction
+
+rf2o_delayed = TimerAction(period=3.0, actions=[rf2o])
 
 
 def generate_launch_description():
@@ -34,11 +37,11 @@ def generate_launch_description():
         name='rf2o_laser_odometry',
         parameters=[{
             'laser_scan_topic': '/scan',
-            'odom_topic': '/odom_rf2o',
+            'odom_topic': '/odom',
             'publish_tf': True,
             'base_frame_id': 'base_link',
             'odom_frame_id': 'odom',
-	    'init_pose_from_topic': '',
+            'init_pose_from_topic': '',
             'freq': 10.0,
         }]
     )
@@ -50,4 +53,4 @@ def generate_launch_description():
         name='motor_driver_node'
     )
 
-    return LaunchDescription([lidar, static_tf, rf2o, motor])
+    return LaunchDescription([lidar, static_tf, rf2o_delayed, motor])
