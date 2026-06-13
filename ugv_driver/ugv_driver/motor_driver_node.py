@@ -14,7 +14,7 @@ RIGHT_EN, RIGHT_RPWM, RIGHT_LPWM = 22, 23, 24
 MAX_LINEAR = 0.5     # m/s at full throttle (rough estimate, tune later)
 MAX_ANGULAR = 2.0    # rad/s at full throttle
 CMD_TIMEOUT = 0.5    # seconds; stop if no command received
-LEFT_TRIM  = 1.25 
+LEFT_TRIM  = 1.0 
 RIGHT_TRIM = 1.0
 
 
