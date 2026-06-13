@@ -6,7 +6,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch.actions import TimerAction
 
-rf2o_delayed = TimerAction(period=3.0, actions=[rf2o])
 
 
 def generate_launch_description():
@@ -53,4 +52,7 @@ def generate_launch_description():
         name='motor_driver_node'
     )
 
+rf2o_delayed = TimerAction(period=3.0, actions=[rf2o])
+
+    
     return LaunchDescription([lidar, static_tf, rf2o_delayed, motor])
