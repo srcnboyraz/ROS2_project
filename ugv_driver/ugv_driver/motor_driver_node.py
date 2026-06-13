@@ -11,11 +11,12 @@ LEFT_EN, LEFT_RPWM, LEFT_LPWM = 17, 18, 27
 # Right side (module 2)
 RIGHT_EN, RIGHT_RPWM, RIGHT_LPWM = 22, 23, 24
 
-MAX_LINEAR = 0.5     # m/s at full throttle (rough estimate, tune later)
-MAX_ANGULAR = 2.0    # rad/s at full throttle
+MAX_LINEAR = 0.3     # m/s at full throttle (rough estimate, tune later)
+MAX_ANGULAR = 0.5    # rad/s at full throttle
 CMD_TIMEOUT = 0.5    # seconds; stop if no command received
 LEFT_TRIM  = 1.0 
 RIGHT_TRIM = 1.0
+DEAD_ZONE = 0.15
 
 
 class MotorSide:
@@ -25,9 +26,15 @@ class MotorSide:
         self.lpwm = PWMOutputDevice(lpwm_pin, frequency=1000)
         self.en.on()
 
-    def set_speed(self, value):
-        """value in [-1.0, 1.0]; positive = forward."""
+   def set_speed(self, value):
         value = max(-1.0, min(1.0, value))
+        if abs(value) < DEAD_ZONE:
+            value = 0.0
+        elif value > 0:
+            value = DEAD_ZONE + (1.0 - DEAD_ZONE) * value
+        else:
+            value = -(DEAD_ZONE + (1.0 - DEAD_ZONE) * abs(value))
+        
         if value >= 0:
             self.lpwm.value = 0
             self.rpwm.value = value
