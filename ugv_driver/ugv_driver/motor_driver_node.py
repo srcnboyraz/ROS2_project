@@ -14,6 +14,8 @@ RIGHT_EN, RIGHT_RPWM, RIGHT_LPWM = 22, 23, 24
 MAX_LINEAR = 0.5     # m/s at full throttle (rough estimate, tune later)
 MAX_ANGULAR = 2.0    # rad/s at full throttle
 CMD_TIMEOUT = 0.5    # seconds; stop if no command received
+LEFT_TRIM  = 1.1 
+RIGHT_TRIM = 1.0
 
 
 class MotorSide:
@@ -52,8 +54,8 @@ class MotorDriverNode(Node):
         self.last_cmd_time = self.get_clock().now()
         linear = msg.linear.x / MAX_LINEAR      # normalize to [-1, 1]
         angular = msg.angular.z / MAX_ANGULAR
-        left_speed = linear - angular
-        right_speed = linear + angular
+        left_speed = (linear - angular) * LEFT_TRIM
+        right_speed = (linear + angular) * RIGHT_TRIM
         self.left.set_speed(left_speed)
         self.right.set_speed(right_speed)
 
