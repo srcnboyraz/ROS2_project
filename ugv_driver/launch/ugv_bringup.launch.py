@@ -52,7 +52,7 @@ def generate_launch_description():
         name='motor_driver_node'
     )
 
-rf2o_delayed = TimerAction(period=3.0, actions=[rf2o])
+    rf2o_delayed = TimerAction(period=3.0, actions=[rf2o])
 
     
-return LaunchDescription([lidar, static_tf, rf2o_delayed, motor])
+    return LaunchDescription([lidar, static_tf, rf2o_delayed, motor])
