@@ -26,7 +26,7 @@ class MotorSide:
         self.lpwm = PWMOutputDevice(lpwm_pin, frequency=1000)
         self.en.on()
 
-   def set_speed(self, value):
+    def set_speed(self, value):
         value = max(-1.0, min(1.0, value))
         if abs(value) < DEAD_ZONE:
             value = 0.0
